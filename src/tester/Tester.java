@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import problem.ASVConfig;
-import problem.ASVConfigAngle;
+import problem.ASVConfig;
 import problem.Obstacle;
 import problem.ProblemSpec;
 
@@ -243,7 +243,7 @@ public class Tester {
 	 *            the configuration to test.
 	 * @return whether the booms in the given configuration have valid lengths.
 	 */
-	public boolean hasValidBoomLengths(ASVConfigAngle cfg) {
+	public boolean hasValidBoomLengths(ASVConfig cfg) {
 		List<Point2D> points = cfg.getASVPositions();
 		for (int i = 1; i < points.size(); i++) {
 			Point2D p0 = points.get(i - 1);
@@ -320,7 +320,7 @@ public class Tester {
 	 *            the configuration to test.
 	 * @return whether the given configuration is convex.
 	 */
-	public boolean isConvex(ASVConfigAngle cfg) {
+	public boolean isConvex(ASVConfig cfg) {
 		List<Point2D> points = cfg.getASVPositions();
 		points.add(points.get(0));
 		points.add(points.get(1));
@@ -330,17 +330,29 @@ public class Tester {
 		Point2D p0 = points.get(0);
 		Point2D p1 = points.get(1);
 		double angle = Math.atan2(p1.getY() - p0.getY(), p1.getX() - p0.getX());
+		
+		System.out.println("Angle :");
+		System.out.println(angle);
 		for (int i = 2; i < points.size(); i++) {
 			Point2D p2 = points.get(i);
 			double nextAngle = Math.atan2(p2.getY() - p1.getY(),
 					p2.getX() - p1.getX());
+			System.out.println("Next angle :");
+			System.out.println(nextAngle);
 			double turningAngle = normaliseAngle(nextAngle - angle);
+			
+			System.out.println("Turning angle : ");
+			System.out.println(turningAngle);
+			System.out.println();
 
 			if (turningAngle == Math.PI) {
 				return false;
 			}
 
 			totalTurned += Math.abs(turningAngle);
+			
+			System.out.println(totalTurned);
+			
 			if (totalTurned > 3 * Math.PI) {
 				return false;
 			}
@@ -411,7 +423,7 @@ public class Tester {
 	 *            the configuration to test.
 	 * @return whether the given configuration has sufficient area.
 	 */
-	public boolean hasEnoughArea(ASVConfigAngle cfg) {
+	public boolean hasEnoughArea(ASVConfig cfg) {
 		double total = 0;
 		List<Point2D> points = cfg.getASVPositions();
 		points.add(points.get(0));

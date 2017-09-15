@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import problem.ASVConfigAngle;
+import problem.ASVConfig;
 import problem.ProblemSpec;
 import tester.Tester;
 
@@ -14,9 +14,9 @@ public class Sampler {
 	
 	private int ASVCount;
 	
-	private ASVConfigAngle currentASV;
+	private ASVConfig currentASV;
 	
-	private List<ASVConfigAngle> ASVConfigAngles = new ArrayList<ASVConfigAngle>();
+	private List<ASVConfig> ASVConfigAngles = new ArrayList<ASVConfig>();
 	
 	private Random random = new Random();
 	
@@ -42,7 +42,7 @@ public class Sampler {
 		this.pointX = Double.parseDouble(format2.format(random.nextDouble()));
 		this.pointY = Double.parseDouble(format2.format(random.nextDouble()));
 		
-		currentASV = new ASVConfigAngle();
+		currentASV = new ASVConfig();
 		
 		currentASV.addPoints(this.pointX, this.pointY);
 		
@@ -61,7 +61,7 @@ public class Sampler {
 		
 	}
 	
-	public List<ASVConfigAngle> ASVConfigs(){
+	public List<ASVConfig> ASVConfigs(){
 		return this.ASVConfigAngles;
 	}
 	
