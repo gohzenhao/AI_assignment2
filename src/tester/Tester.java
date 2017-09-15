@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import problem.ASVConfig;
+import problem.ASVConfigAngle;
 import problem.Obstacle;
 import problem.ProblemSpec;
 
@@ -199,41 +200,41 @@ public class Tester {
 	 * Checks that the booms in each configuration have lengths in the allowable
 	 * range.
 	 */
-	public boolean testBoomLengths(int testNo, boolean verbose) {
-		System.out.println(String.format("Test #%d: Boom lengths", testNo));
-		List<Integer> badStates = getInvalidBoomStates();
-		if (!badStates.isEmpty()) {
-			System.out.println(String.format(
-					"FAILED: Invalid boom length for %d of %d state(s).",
-					badStates.size(), ps.getPath().size()));
-			if (verbose) {
-				if (verbose) {
-					System.out.println("Line for each invalid cfg:");
-					System.out.println(addToAll(badStates, 2));
-				}
-			}
-			return false;
-		} else {
-			System.out.println("Passed.");
-			return true;
-		}
-	}
+//	public boolean testBoomLengths(int testNo, boolean verbose) {
+//		System.out.println(String.format("Test #%d: Boom lengths", testNo));
+//		List<Integer> badStates = getInvalidBoomStates();
+//		if (!badStates.isEmpty()) {
+//			System.out.println(String.format(
+//					"FAILED: Invalid boom length for %d of %d state(s).",
+//					badStates.size(), ps.getPath().size()));
+//			if (verbose) {
+//				if (verbose) {
+//					System.out.println("Line for each invalid cfg:");
+//					System.out.println(addToAll(badStates, 2));
+//				}
+//			}
+//			return false;
+//		} else {
+//			System.out.println("Passed.");
+//			return true;
+//		}
+//	}
 
 	/**
 	 * Returns the path indices of any states with invalid booms.
 	 *
 	 * @return the path indices of any states with invalid booms.
 	 */
-	public List<Integer> getInvalidBoomStates() {
-		List<Integer> badStates = new ArrayList<Integer>();
-		List<ASVConfig> path = ps.getPath();
-		for (int i = 0; i < path.size(); i++) {
-			if (!hasValidBoomLengths(path.get(i))) {
-				badStates.add(i);
-			}
-		}
-		return badStates;
-	}
+//	public List<Integer> getInvalidBoomStates() {
+//		List<Integer> badStates = new ArrayList<Integer>();
+//		List<ASVConfig> path = ps.getPath();
+//		for (int i = 0; i < path.size(); i++) {
+//			if (!hasValidBoomLengths(path.get(i))) {
+//				badStates.add(i);
+//			}
+//		}
+//		return badStates;
+//	}
 
 	/**
 	 * Returns whether the booms in the given configuration have valid lengths.
@@ -242,7 +243,7 @@ public class Tester {
 	 *            the configuration to test.
 	 * @return whether the booms in the given configuration have valid lengths.
 	 */
-	public boolean hasValidBoomLengths(ASVConfig cfg) {
+	public boolean hasValidBoomLengths(ASVConfigAngle cfg) {
 		List<Point2D> points = cfg.getASVPositions();
 		for (int i = 1; i < points.size(); i++) {
 			Point2D p0 = points.get(i - 1);
@@ -261,39 +262,39 @@ public class Tester {
 	 * Checks that each configuration in the path is convex (and hence also
 	 * non-self-intersecting).
 	 */
-	public boolean testConvexity(int testNo, boolean verbose) {
-		System.out.println(String.format("Test #%d: Convexity", testNo));
-		List<Integer> badStates = getNonConvexStates();
-		if (!badStates.isEmpty()) {
-			System.out.println(String.format(
-					"FAILED: %d of %d state(s) are not convex.",
-					badStates.size(), ps.getPath().size()));
-			if (verbose) {
-				System.out.println("Line for each invalid cfg:");
-				System.out.println(addToAll(badStates, 2));
-			}
-			return false;
-		} else {
-			System.out.println("Passed.");
-			return true;
-		}
-	}
+//	public boolean testConvexity(int testNo, boolean verbose) {
+//		System.out.println(String.format("Test #%d: Convexity", testNo));
+//		List<Integer> badStates = getNonConvexStates();
+//		if (!badStates.isEmpty()) {
+//			System.out.println(String.format(
+//					"FAILED: %d of %d state(s) are not convex.",
+//					badStates.size(), ps.getPath().size()));
+//			if (verbose) {
+//				System.out.println("Line for each invalid cfg:");
+//				System.out.println(addToAll(badStates, 2));
+//			}
+//			return false;
+//		} else {
+//			System.out.println("Passed.");
+//			return true;
+//		}
+//	}
 
 	/**
 	 * Returns the path indices of any non-convex states.
 	 *
 	 * @return the path indices of any non-convex states.
 	 */
-	public List<Integer> getNonConvexStates() {
-		List<Integer> badStates = new ArrayList<Integer>();
-		List<ASVConfig> path = ps.getPath();
-		for (int i = 0; i < path.size(); i++) {
-			if (!isConvex(path.get(i))) {
-				badStates.add(i);
-			}
-		}
-		return badStates;
-	}
+//	public List<Integer> getNonConvexStates() {
+//		List<Integer> badStates = new ArrayList<Integer>();
+//		List<ASVConfig> path = ps.getPath();
+//		for (int i = 0; i < path.size(); i++) {
+//			if (!isConvex(path.get(i))) {
+//				badStates.add(i);
+//			}
+//		}
+//		return badStates;
+//	}
 
 	/**
 	 * Normalises an angle to the range (-pi, pi]
@@ -319,7 +320,7 @@ public class Tester {
 	 *            the configuration to test.
 	 * @return whether the given configuration is convex.
 	 */
-	public boolean isConvex(ASVConfig cfg) {
+	public boolean isConvex(ASVConfigAngle cfg) {
 		List<Point2D> points = cfg.getASVPositions();
 		points.add(points.get(0));
 		points.add(points.get(1));
@@ -369,39 +370,39 @@ public class Tester {
 	/**
 	 * Checks whether each configuration has sufficient internal area.
 	 */
-	public boolean testAreas(int testNo, boolean verbose) {
-		System.out.println(String.format("Test #%d: Areas", testNo));
-		List<Integer> badStates = getInvalidAreaStates();
-		if (!badStates.isEmpty()) {
-			System.out.println(String.format(
-					"FAILED: %d of %d state(s) have insufficient area.",
-					badStates.size(), ps.getPath().size()));
-			if (verbose) {
-				System.out.println("Line for each invalid cfg:");
-				System.out.println(addToAll(badStates, 2));
-			}
-			return false;
-		} else {
-			System.out.println("Passed.");
-			return true;
-		}
-	}
+//	public boolean testAreas(int testNo, boolean verbose) {
+//		System.out.println(String.format("Test #%d: Areas", testNo));
+//		List<Integer> badStates = getInvalidAreaStates();
+//		if (!badStates.isEmpty()) {
+//			System.out.println(String.format(
+//					"FAILED: %d of %d state(s) have insufficient area.",
+//					badStates.size(), ps.getPath().size()));
+//			if (verbose) {
+//				System.out.println("Line for each invalid cfg:");
+//				System.out.println(addToAll(badStates, 2));
+//			}
+//			return false;
+//		} else {
+//			System.out.println("Passed.");
+//			return true;
+//		}
+//	}
 
 	/**
 	 * Returns the path indices of any states with insufficient area.
 	 *
 	 * @return the path indices of any states with insufficient area.
 	 */
-	public List<Integer> getInvalidAreaStates() {
-		List<ASVConfig> path = ps.getPath();
-		List<Integer> badStates = new ArrayList<Integer>();
-		for (int i = 0; i < path.size(); i++) {
-			if (!hasEnoughArea(path.get(i))) {
-				badStates.add(i);
-			}
-		}
-		return badStates;
-	}
+//	public List<Integer> getInvalidAreaStates() {
+//		List<ASVConfig> path = ps.getPath();
+//		List<Integer> badStates = new ArrayList<Integer>();
+//		for (int i = 0; i < path.size(); i++) {
+//			if (!hasEnoughArea(path.get(i))) {
+//				badStates.add(i);
+//			}
+//		}
+//		return badStates;
+//	}
 
 	/**
 	 * Returns whether the given configuration has sufficient area.
@@ -410,7 +411,7 @@ public class Tester {
 	 *            the configuration to test.
 	 * @return whether the given configuration has sufficient area.
 	 */
-	public boolean hasEnoughArea(ASVConfig cfg) {
+	public boolean hasEnoughArea(ASVConfigAngle cfg) {
 		double total = 0;
 		List<Point2D> points = cfg.getASVPositions();
 		points.add(points.get(0));
@@ -584,12 +585,12 @@ public class Tester {
 			return testGoalLast(testNo, verbose);
 		case "steps":
 			return testValidSteps(testNo, verbose);
-		case "booms":
-			return testBoomLengths(testNo, verbose);
-		case "convexity":
-			return testConvexity(testNo, verbose);
-		case "areas":
-			return testAreas(testNo, verbose);
+//		case "booms":
+//			return testBoomLengths(testNo, verbose);
+//		case "convexity":
+//			return testConvexity(testNo, verbose);
+//		case "areas":
+//			return testAreas(testNo, verbose);
 		case "bounds":
 			return testBounds(testNo, verbose);
 		case "collisions":

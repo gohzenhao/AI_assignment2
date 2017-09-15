@@ -6,6 +6,7 @@ import java.util.List;
 
 import problem.ProblemSpec;
 import problem.ProblemSpecAngle;
+import tester.Tester;
 public class Driver {
 
 	
@@ -13,12 +14,10 @@ public class Driver {
 		
 		ProblemSpec problemSetup = new ProblemSpec();
 		ProblemSpecAngle problemSetupAngle = new ProblemSpecAngle();
-		
-		String filename = "C:\\Users\\User-PC\\eclipse-workspace\\AI-ass2\\testcases\\7ASV-easy.txt";
+		Tester tester = new Tester();
+		String filename = "C:/Users/gohzenhao/Documents/7ASV-easy.txt";
 		
 		problemSetup.loadProblem(filename);
-		
-		System.out.println(problemSetup.getASVCount());
 		
 		List<Point2D> asvConfig = problemSetup.getInitialState().getASVPositions();
 		
@@ -35,13 +34,45 @@ public class Driver {
 		List<Point2D> asvConfig2 = problemSetupAngle.getInitialState().getASVPositions();
 		List<Double> asvConfig3 = problemSetupAngle.getInitialState().getAngles();
 		
-		for(int i=0;i<asvConfig2.size();i++){
-			System.out.println(asvConfig2.get(i));
+//		for(int i=0;i<asvConfig2.size();i++){
+//			System.out.println(asvConfig2.get(i));
+//		}
+//		
+//		for(int i=0;i<asvConfig3.size();i++){
+//			System.out.println(asvConfig3.get(i));
+//		}
+		
+		Sampler sampler = new Sampler(7);
+		
+		for(int i=0;i<10;i++){
+			sampler.Sample();
 		}
 		
-		for(int i=0;i<asvConfig3.size();i++){
-			System.out.println(asvConfig3.get(i));
+		for(int i=0;i<sampler.ASVConfigs().size();i++){
+			System.out.println(sampler.ASVConfigs().get(i).getAngles());
+			
+			System.out.println(sampler.ASVConfigs().get(i).getASVPositions());
+			
+			System.out.println("Has valid broom lengths:");
+			
+			System.out.println(tester.hasValidBoomLengths(sampler.ASVConfigs().get(i)));
+			
+			System.out.println("Has enough area : ");
+			
+			System.out.println(tester.hasEnoughArea(sampler.ASVConfigs().get(i)));
+			
+			System.out.println("Is it convex?");
+			
+			System.out.println(tester.isConvex(sampler.ASVConfigs().get(i)));
+			
+			System.out.println();
+			
 		}
+		
+	
+		
+		
+		
 		
 		
 		

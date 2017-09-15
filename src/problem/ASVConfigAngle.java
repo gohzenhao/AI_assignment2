@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 
 /**
  * Represents a configuration of the ASVs. This class doesn't do any validity
@@ -18,6 +19,8 @@ public class ASVConfigAngle {
 	private List<Double> asvAngle = new ArrayList<Double>();
 	/** The position of each ASV */
 	private List<Point2D> asvPositions = new ArrayList<Point2D>();
+	
+	private DecimalFormat format = new DecimalFormat("#.000");
 
 	/**
 	 * Constructor. Takes an array of 2n x and y coordinates, where n is the
@@ -35,6 +38,10 @@ public class ASVConfigAngle {
 				angle+=360;				
 			asvAngle.add(angle);
 		}
+	}
+	
+	public ASVConfigAngle(){
+		
 	}
 
 	/**
@@ -169,18 +176,35 @@ public class ASVConfigAngle {
 	 */
 	public List<Point2D> getASVPositions() {
 		asvPositions.add(new Point2D.Double(baseASVx,baseASVy));
-		double previousX = baseASVx;
-		double previousY = baseASVy;
+
+		double previousX = Double.parseDouble(format.format(baseASVx));
+		double previousY = Double.parseDouble(format.format(baseASVy));
 		double currentX,currentY;
 		for(int i = 0;i < asvAngle.size();i++)
 		{
 			double angle = asvAngle.get(i);
 			currentX = previousX + 0.05 * Math.cos(Math.toRadians(angle)) ;
 			currentY = previousY + 0.05 * Math.sin(Math.toRadians(angle)) ;
+			currentX = Double.parseDouble(format.format(currentX));
+			currentY = Double.parseDouble(format.format(currentY));
 			asvPositions.add(new Point2D.Double(currentX,currentY));
 			previousX = currentX;
 			previousY = currentY;			
 		}
 		return new ArrayList<Point2D>(asvPositions);
 	}
+	
+	public void addPoints(double x,double y){
+		
+		this.baseASVx = x;
+		this.baseASVy = y;
+		
+	}
+	
+	public void addAngle(double inAngle){
+		
+		this.asvAngle.add(inAngle);
+		
+	}
+	
 }
