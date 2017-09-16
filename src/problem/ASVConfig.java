@@ -21,6 +21,8 @@ public class ASVConfig {
 	private List<Point2D> asvPositions = new ArrayList<Point2D>();
 	
 	private DecimalFormat format = new DecimalFormat("#.000");
+	
+	private int stepsToMove;
 
 	/**
 	 * Constructor. Takes an array of 2n x and y coordinates, where n is the
@@ -41,6 +43,7 @@ public class ASVConfig {
 	}
 	
 	public ASVConfig(){
+		
 		
 	}
 
@@ -186,10 +189,10 @@ public class ASVConfig {
 		{
 			double angle = asvAngle.get(i);
 			currentX = previousX + 0.05 * Math.cos(angle*22/1260.0);
-			currentY = previousY + 0.05 * Math.sin(angle*22/1260.0);
-//	
-//			currentX = Double.parseDouble(format.format(currentX));
-//			currentY = Double.parseDouble(format.format(currentY));
+			currentY = previousY + 0.05 * Math.sin(angle*22/1260.0) ;
+	
+			currentX = Double.parseDouble(format.format(currentX));
+			currentY = Double.parseDouble(format.format(currentY));
 			asvPositions.add(new Point2D.Double(currentX,currentY));
 			previousX = currentX;
 			previousY = currentY;			
@@ -208,6 +211,40 @@ public class ASVConfig {
 		
 		this.asvAngle.add(inAngle);
 		
+	}
+	
+	public int stepsX(ASVConfig anotherASV){
+		
+		double xDiff = anotherASV.baseASVx - this.baseASVx;
+		xDiff = xDiff/0.001;
+		
+		return (int)Math.round(xDiff);
+	}
+	
+	public int stepsY(ASVConfig anotherASV){
+		
+		double yDiff = anotherASV.baseASVy - this.baseASVy;
+		yDiff = yDiff/0.001;
+		
+		return (int)Math.round(yDiff);
+		
+	}
+	public double moveX(){
+		this.baseASVx += 0.001;
+		return this.baseASVx;
+	}
+	
+	public double moveY(){
+		this.baseASVy+= 0.001;
+		return this.baseASVy;
+	}
+	
+	public double getX(){
+		return this.baseASVx;
+	}
+	
+	public double getY(){
+		return this.baseASVy;
 	}
 	
 }

@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,12 @@ public class Driver {
 
 	
 	public static void main(String[] args) throws IOException{
+		
 
 		ProblemSpec problemSetupAngle = new ProblemSpec();
 		Tester tester = new Tester();
-		String filename = "C:\\Users\\User-PC\\eclipse-workspace\\AI-ass2\\testcases\\3ASV-easy.txt";		
+		String filename = "C:/Users/gohzenhao/Documents/3ASV-easy.txt";
+		
 		File outputFile = new File("answer.txt");
 		
 		VisualHelper visual = new VisualHelper();
@@ -66,70 +69,84 @@ public class Driver {
 		for(int i=0;i<500;i++){
 			sampler.Sample();
 		}
-		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
-		
 		System.out.println(sampler.ASVConfigs().size());
-		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
-			rects.add(problemSetupAngle.getObstacles().get(i).getRect());
+//		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
+//		
+//		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
+//			rects.add(problemSetupAngle.getObstacles().get(i).getRect());
+//		}
+//		visual.addRectangles(rects);
+//		for(int i=0;i<sampler.ASVConfigs().size();i++){
+////		System.out.println(sampler.ASVConfigs().get(i).getAngles());			
+////			System.out.println(sampler.ASVConfigs().get(i).getASVPositions());
+//			visual.addPoints(sampler.ASVConfigs().get(i).getASVPositions());
+//			visual.repaint();
+//			visual.waitKey();
+//			visual.addLinkedPoints(sampler.ASVConfigs().get(i).getASVPositions());
+//			
+//
+//			
+//		}
+		
+		ASVConfig asv1 = problemSetupAngle.getInitialState();
+		ASVConfig asv2 = new ASVConfig();
+		asv2.addPoints(0.251, 0.225);
+		asv2.addAngle(90);
+		asv2.addAngle(0);
+		
+//		visual.addPoints(asv1.getASVPositions());
+//		visual.addPoints(asv2.getASVPositions());
+//		visual.repaint();
+		
+		int stepsX = asv1.stepsX(asv2);
+		int stepsY = asv1.stepsY(asv2);
+		
+		Double newPosX;
+		Double newPosY;
+		
+		for(int i=0;i<asv1.getAngles().size();i++){
+			
 		}
-		visual.addRectangles(rects);
-		for(int i=0;i<sampler.ASVConfigs().size();i++){
-//		System.out.println(sampler.ASVConfigs().get(i).getAngles());			
-//			System.out.println(sampler.ASVConfigs().get(i).getASVPositions());
-			visual.addPoints(sampler.ASVConfigs().get(i).getASVPositions());
-			visual.repaint();
-			visual.waitKey();
-			visual.addLinkedPoints(sampler.ASVConfigs().get(i).getASVPositions());
-			//check broom length
-			for(int num=0;num<sampler.ASVConfigs().get(i).getASVPositions().size()-1;num++)
-			{
-				System.out.println(sampler.ASVConfigs().get(i).getASVPositions().get(num).distance(sampler.ASVConfigs().get(i).getASVPositions().get(num+1)));
+		List<Point2D> path = new ArrayList<Point2D>();
+		
+		while(stepsX!=0 || stepsY!=0){
+			
+			newPosX = asv1.getX();
+			newPosY = asv1.getY();
+			
+			if(stepsX!=0){
+				stepsX -= 1;
+				newPosX = asv1.moveX();
 			}
+			
+			if(stepsY!=0){
+				stepsY -= 1;
+				newPosY = asv1.moveY();
+			}
+			
+			path.add(new Point2D.Double(newPosX,newPosY));
+			
+			
 		}
 		
-		System.out.println(problemSetupAngle.getInitialState().getASVPositions());
-		System.out.println(problemSetupAngle.getGoalState().getASVPositions());
-		String answer = "";
-//		try
-//		{
-//			FileWriter fw= new FileWriter(outputFile);
-//			BufferedWriter bw= new BufferedWriter(fw);
-//			
-//			List<ASVConfig> asvConfigs = sampler.ASVConfigs();
-//			List<Point2D> positions;
-//			
-//			String x;
-//			
-//			String y;
-//			bw.write("10 30");
-//			bw.newLine();
-//            bw.write("0.15 0.225 0.15 0.275 0.2 0.275 ");
-//            bw.newLine();
-//			for(int i=0;i<asvConfigs.size();i++){
-//				
-//				positions = asvConfigs.get(i).getASVPositions();
-//				for(int u=0;u<positions.size();u++){
-//					x = Double.toString(positions.get(u).getX());
-//					y = Double.toString(positions.get(u).getY());
-//				
-//					bw.write(x+" "+y+" ");
-//				}
-//				
-//				bw.newLine();
-//					
-//			}
-//			bw.write("0.85 0.225 0.85 0.275 0.9 0.275 ");
-//			
-//			
-//			bw.flush();
-//			bw.close();
-//			
-//			
-//		}
-//		catch (IOException e)
-//		{
-//			System.out.println(e.getMessage());
-//		}
+		
+		
+			
+	
+			
+		
+		
+		
+		
+		visual.addPoints(path);
+		visual.repaint();
+
+		
+//		System.out.println(problemSetupAngle.getInitialState().getASVPositions());
+//		System.out.println(problemSetupAngle.getGoalState().getASVPositions());
+		
+		
+
 		
 		
 	
