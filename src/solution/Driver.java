@@ -26,12 +26,10 @@ public class Driver {
 
 	
 	public static void main(String[] args) throws IOException{
-		
 
 		ProblemSpec problemSetupAngle = new ProblemSpec();
 		Tester tester = new Tester();
-		String filename = "C:/Users/gohzenhao/Documents/3ASV-easy.txt";
-		
+		String filename = "C:\\Users\\User-PC\\eclipse-workspace\\AI-ass2\\testcases\\3ASV-easy.txt";		
 		File outputFile = new File("answer.txt");
 		
 		VisualHelper visual = new VisualHelper();
@@ -65,12 +63,12 @@ public class Driver {
 		
 		Sampler sampler = new Sampler(problemSetupAngle);
 		
-		for(int i=0;i<50;i++){
+		for(int i=0;i<500;i++){
 			sampler.Sample();
 		}
 		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
 		
-//		System.out.println(sampler.ASVConfigs().size());
+		System.out.println(sampler.ASVConfigs().size());
 		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
 			rects.add(problemSetupAngle.getObstacles().get(i).getRect());
 		}
@@ -82,9 +80,11 @@ public class Driver {
 			visual.repaint();
 			visual.waitKey();
 			visual.addLinkedPoints(sampler.ASVConfigs().get(i).getASVPositions());
-			
-
-			
+			//check broom length
+			for(int num=0;num<sampler.ASVConfigs().get(i).getASVPositions().size()-1;num++)
+			{
+				System.out.println(sampler.ASVConfigs().get(i).getASVPositions().get(num).distance(sampler.ASVConfigs().get(i).getASVPositions().get(num+1)));
+			}
 		}
 		
 		System.out.println(problemSetupAngle.getInitialState().getASVPositions());
