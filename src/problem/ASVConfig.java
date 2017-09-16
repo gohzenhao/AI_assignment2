@@ -175,19 +175,19 @@ public class ASVConfig {
 	 * @return the positions of all the ASVs, in order.
 	 */
 	public List<Point2D> getASVPositions() {
+		
+		asvPositions = new ArrayList<Point2D>();
 		asvPositions.add(new Point2D.Double(baseASVx,baseASVy));
 
-		double previousX = Double.parseDouble(format.format(baseASVx));
-		double previousY = Double.parseDouble(format.format(baseASVy));
+		double previousX = baseASVx;
+		double previousY = baseASVy;
 		double currentX,currentY;
 		for(int i = 0;i < asvAngle.size();i++)
 		{
 			double angle = asvAngle.get(i);
-			System.out.println(angle);
 			currentX = previousX + 0.05 * Math.cos(Math.toRadians(angle));
 			currentY = previousY + 0.05 * Math.sin(Math.toRadians(angle)) ;
-			System.out.println(currentX);
-			System.out.println(currentY);
+	
 			currentX = Double.parseDouble(format.format(currentX));
 			currentY = Double.parseDouble(format.format(currentY));
 			asvPositions.add(new Point2D.Double(currentX,currentY));

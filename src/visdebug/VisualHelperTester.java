@@ -28,7 +28,7 @@ public class VisualHelperTester {
 		// Test
 		VisualHelper visualHelper = new VisualHelper();
 		visualHelper.addPoints(points);
-		visualHelper.addRectangles(rects);
+//		visualHelper.addRectangles(rects);
 		visualHelper.repaint();
 		
 		// Wait for user key press

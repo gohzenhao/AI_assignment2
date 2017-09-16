@@ -30,6 +30,8 @@ public class Sampler {
 	
 	private DecimalFormat format2 = new DecimalFormat("#.000");
 	
+	private Tester tester = new Tester();
+	
 	
 	public Sampler(int inASVcount){
 		
@@ -46,6 +48,7 @@ public class Sampler {
 		
 		currentASV.addPoints(this.pointX, this.pointY);
 		
+		
 		for(int i=0;i<this.ASVCount-1;i++){
 			
 			angle = Math.random()*360;
@@ -54,8 +57,10 @@ public class Sampler {
 			
 			
 		}
-		
-		this.ASVConfigAngles.add(currentASV);
+		if(tester.isConvex(currentASV) && tester.hasEnoughArea(currentASV)){
+			this.ASVConfigAngles.add(currentASV);
+			
+		}
 		
 		
 		
