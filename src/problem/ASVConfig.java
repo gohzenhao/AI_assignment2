@@ -247,4 +247,17 @@ public class ASVConfig {
 		return this.baseASVy;
 	}
 	
+	public double angleDiff(ASVConfig anotherASV,int i){
+		
+		double angle1 = this.asvAngle.get(i);
+		
+		double angle2 = anotherASV.getAngles().get(i);
+		
+		double diff = angle2 - angle1;
+		
+		return diff;
+		
+		
+	}
+	
 }

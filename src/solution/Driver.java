@@ -90,7 +90,7 @@ public class Driver {
 		
 		ASVConfig asv1 = problemSetupAngle.getInitialState();
 		ASVConfig asv2 = new ASVConfig();
-		asv2.addPoints(0.251, 0.225);
+		asv2.addPoints(0.251, 0.235);
 		asv2.addAngle(90);
 		asv2.addAngle(0);
 		
@@ -101,15 +101,18 @@ public class Driver {
 		int stepsX = asv1.stepsX(asv2);
 		int stepsY = asv1.stepsY(asv2);
 		
+		
 		Double newPosX;
 		Double newPosY;
 		
 		for(int i=0;i<asv1.getAngles().size();i++){
 			
 		}
-		List<Point2D> path = new ArrayList<Point2D>();
+		List<ASVConfig> allSteps = new ArrayList<ASVConfig>();
 		
 		while(stepsX!=0 || stepsY!=0){
+			
+			ASVConfig oneStep = new ASVConfig();
 			
 			newPosX = asv1.getX();
 			newPosY = asv1.getY();
@@ -124,22 +127,22 @@ public class Driver {
 				newPosY = asv1.moveY();
 			}
 			
-			path.add(new Point2D.Double(newPosX,newPosY));
+			oneStep.addPoints(newPosX, newPosY);
+			for(int i=0;i<asv1.getAngles().size();i++){
+				oneStep.addAngle(asv1.getAngles().get(i));
+			}
 			
-			
+			allSteps.add(oneStep);
+		}
+		
+		for(int i=0;i<allSteps.size();i++){
+			visual.addPoints(allSteps.get(i).getASVPositions());
+			visual.repaint();
+			visual.waitKey();
+			visual.addLinkedPoints(allSteps.get(i).getASVPositions());
 		}
 		
 		
-		
-			
-	
-			
-		
-		
-		
-		
-		visual.addPoints(path);
-		visual.repaint();
 
 		
 //		System.out.println(problemSetupAngle.getInitialState().getASVPositions());
