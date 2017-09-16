@@ -32,10 +32,13 @@ public class Sampler {
 	
 	private Tester tester = new Tester();
 	
+	private ProblemSpec problemSpec = new ProblemSpec();
 	
-	public Sampler(int inASVcount){
+	
+	public Sampler(ProblemSpec inProblemSpec){
 		
-		this.ASVCount = inASVcount;
+		this.problemSpec = inProblemSpec;
+		this.ASVCount = inProblemSpec.getASVCount();
 		
 	}
 	
@@ -57,10 +60,14 @@ public class Sampler {
 			
 			
 		}
-		if(tester.isConvex(currentASV) && tester.hasEnoughArea(currentASV)){
-			this.ASVConfigAngles.add(currentASV);
-			
+		if(!tester.hasCollision(currentASV, this.problemSpec.getObstacles())){
+		
+			if(tester.isConvex(currentASV) && tester.hasEnoughArea(currentASV)){
+				this.ASVConfigAngles.add(currentASV);
+				
+			}
 		}
+		
 		
 		
 		

@@ -1,6 +1,7 @@
 package solution;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -62,13 +63,18 @@ public class Driver {
 //			System.out.println(asvConfig3.get(i));
 //		}
 		
-		Sampler sampler = new Sampler(problemSetupAngle.getASVCount());
+		Sampler sampler = new Sampler(problemSetupAngle);
 		
-		for(int i=0;i<10;i++){
+		for(int i=0;i<50;i++){
 			sampler.Sample();
 		}
+		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
 		
 //		System.out.println(sampler.ASVConfigs().size());
+		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
+			rects.add(problemSetupAngle.getObstacles().get(i).getRect());
+		}
+		visual.addRectangles(rects);
 		for(int i=0;i<sampler.ASVConfigs().size();i++){
 //		System.out.println(sampler.ASVConfigs().get(i).getAngles());			
 //			System.out.println(sampler.ASVConfigs().get(i).getASVPositions());
