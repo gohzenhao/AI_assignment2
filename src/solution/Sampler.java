@@ -60,7 +60,7 @@ public class Sampler {
 			
 			
 		}
-		if(!tester.hasCollision(currentASV, this.problemSpec.getObstacles())){
+		if(!tester.hasCollision(currentASV, this.problemSpec.getObstacles()) && tester.fitsBounds(currentASV)){
 		
 			if(tester.isConvex(currentASV) && tester.hasEnoughArea(currentASV)){
 				this.ASVConfigAngles.add(currentASV);
