@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import tester.Tester;
+
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
@@ -23,6 +26,9 @@ public class ASVConfig {
 	private DecimalFormat format = new DecimalFormat("#.000");
 	
 	private int stepsToMove;
+	
+	private Tester tester = new Tester();
+	
 
 	/**
 	 * Constructor. Takes an array of 2n x and y coordinates, where n is the
@@ -229,13 +235,23 @@ public class ASVConfig {
 		return (int)Math.round(yDiff);
 		
 	}
-	public double moveX(){
+	public double moveFrontX(){
 		this.baseASVx += 0.001;
 		return this.baseASVx;
 	}
 	
-	public double moveY(){
+	public double moveFrontY(){
 		this.baseASVy+= 0.001;
+		return this.baseASVy;
+	}
+	
+	public double moveBackX(){
+		this.baseASVx -= 0.001;
+		return this.baseASVx;
+	}
+	
+	public double moveBackY(){
+		this.baseASVy -=0.001;
 		return this.baseASVy;
 	}
 	
@@ -259,5 +275,74 @@ public class ASVConfig {
 		
 		
 	}
+	
+	
+	public List<ASVConfig> generatePath(ASVConfig anotherASV){
+		
+		int stepsX = this.stepsX(anotherASV);
+		int stepsY = this.stepsY(anotherASV);
+		
+		System.out.println("Steps X to get to another ASV : "+stepsX);
+		System.out.println("Steps Y to get to another ASV : "+stepsY);
+		
+		
+		Double newPosX;
+		Double newPosY;
+		
+		List<ASVConfig> allSteps = new ArrayList<ASVConfig>();
+		
+		while(stepsX!=0 || stepsY!=0){
+			
+			ASVConfig oneStep = new ASVConfig();
+			
+			newPosX = this.getX();
+			newPosY = this.getY();
+			
+			if(stepsX!=0){
+				if(stepsX>0){
+					stepsX -= 1;
+					newPosX = this.moveFrontX();
+//					System.out.println("Moving front X..");
+				}
+				else if(stepsX<0){
+					stepsX += 1;
+					newPosX = this.moveBackX();
+//					System.out.println("Moving back X");
+				}
+
+			}
+			
+			if(stepsY!=0){
+				if(stepsY>0){
+					stepsY -= 1;
+					newPosY = this.moveFrontY();
+//					System.out.println("Moving front Y");
+				}
+				else if(stepsY<0){
+					stepsY += 1;
+					newPosY = this.moveBackY();
+//					System.out.println("Moving back Y");
+				}
+
+			}
+			
+			oneStep.addPoints(newPosX, newPosY);
+			for(int i=0;i<anotherASV.getAngles().size();i++){
+				oneStep.addAngle(anotherASV.getAngles().get(i));
+			}
+			oneStep.getASVPositions();
+			allSteps.add(oneStep);
+		}
+		
+		return allSteps;
+		
+	}
+	
+
+	
+//	public ASVConfig findNextPosition(){
+//	
+//		
+//	}
 	
 }

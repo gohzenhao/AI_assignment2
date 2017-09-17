@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import problem.ASVConfig;
+import problem.Obstacle;
 import problem.ProblemSpec;
 import tester.Tester;
 import visdebug.VisualHelper;
@@ -31,7 +32,7 @@ public class Driver {
 
 		ProblemSpec problemSetupAngle = new ProblemSpec();
 		Tester tester = new Tester();
-		String filename = "C:/Users/gohzenhao/Documents/3ASV-easy.txt";
+		String filename = "C:/Users/gohzenhao/Documents/3ASV.txt";
 		
 		File outputFile = new File("answer.txt");
 		
@@ -66,102 +67,111 @@ public class Driver {
 		
 		Sampler sampler = new Sampler(problemSetupAngle);
 		
-		for(int i=0;i<500;i++){
+		for(int i=0;i<300;i++){
 			sampler.Sample();
 		}
 		System.out.println(sampler.ASVConfigs().size());
-//		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
-//		
-//		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
-//			rects.add(problemSetupAngle.getObstacles().get(i).getRect());
-//		}
-//		visual.addRectangles(rects);
-//		for(int i=0;i<sampler.ASVConfigs().size();i++){
-////		System.out.println(sampler.ASVConfigs().get(i).getAngles());			
-////			System.out.println(sampler.ASVConfigs().get(i).getASVPositions());
-//			visual.addPoints(sampler.ASVConfigs().get(i).getASVPositions());
-//			visual.repaint();
-//			visual.waitKey();
-//			visual.addLinkedPoints(sampler.ASVConfigs().get(i).getASVPositions());
-//			
-//
-//			
-//		}
+		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
 		
-		ASVConfig asv1 = problemSetupAngle.getInitialState();
-		ASVConfig asv2 = new ASVConfig();
-		asv2.addPoints(0.251, 0.235);
-		asv2.addAngle(90);
-		asv2.addAngle(0);
-		
-//		visual.addPoints(asv1.getASVPositions());
-//		visual.addPoints(asv2.getASVPositions());
-//		visual.repaint();
-		
-		int stepsX = asv1.stepsX(asv2);
-		int stepsY = asv1.stepsY(asv2);
-		
-		
-		Double newPosX;
-		Double newPosY;
-		
-		for(int i=0;i<asv1.getAngles().size();i++){
-			
+		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
+			rects.add(problemSetupAngle.getObstacles().get(i).getRect());
 		}
-		List<ASVConfig> allSteps = new ArrayList<ASVConfig>();
-		
-		while(stepsX!=0 || stepsY!=0){
-			
-			ASVConfig oneStep = new ASVConfig();
-			
-			newPosX = asv1.getX();
-			newPosY = asv1.getY();
-			
-			if(stepsX!=0){
-				stepsX -= 1;
-				newPosX = asv1.moveX();
-			}
-			
-			if(stepsY!=0){
-				stepsY -= 1;
-				newPosY = asv1.moveY();
-			}
-			
-			oneStep.addPoints(newPosX, newPosY);
-			for(int i=0;i<asv1.getAngles().size();i++){
-				oneStep.addAngle(asv1.getAngles().get(i));
-			}
-			
-			allSteps.add(oneStep);
-		}
-		
-		for(int i=0;i<allSteps.size();i++){
-			visual.addPoints(allSteps.get(i).getASVPositions());
+		visual.addRectangles(rects);
+		for(int i=0;i<sampler.ASVConfigs().size();i++){
+//		System.out.println(sampler.ASVConfigs().get(i).getAngles());			
+//			System.out.println(sampler.ASVConfigs().get(i).getASVPositions());
+			visual.addPoints(sampler.ASVConfigs().get(i).getASVPositions());
 			visual.repaint();
 			visual.waitKey();
-			visual.addLinkedPoints(allSteps.get(i).getASVPositions());
+			visual.addLinkedPoints(sampler.ASVConfigs().get(i).getASVPositions());
+			
+
+			
 		}
 		
 		
+		
+		
+		ASVConfig asv1 = problemSetupAngle.getInitialState();
+		
+		ASVConfig asv2 = problemSetupAngle.getGoalState();
+		
+//		asv2.addPoints(0.350, 0.8);
+//		asv2.addAngle(90);
+//		asv2.addAngle(0);
+		
+//		List<ASVConfig> path = asv1.generatePath(asv2);
+		
+		
+//		for(int i=0;i<path.size();i++){
+//			visual.addPoints(path.get(i).getASVPositions());
+//			visual.repaint();
+//			visual.waitKey();
+//			visual.addLinkedPoints(path.get(i).getASVPositions());
+//		}
+//		problemSetupAngle.setPath(path);
+//		System.out.println(problemSetupAngle.solutionLoaded());
+//		problemSetupAngle.saveSolution("answer.txt");
+		System.out.println("--");
+		asv1.getASVPositions();
+		asv2.getASVPositions();
+		System.out.println(validPath(problemSetupAngle,asv1,asv2));
+		
+		
+		
+		
+		
+		
+//		ASVConfig currentASV = problemSetupAngle.getInitialState();
+//		
+//		for(int i=0;i<sampler.ASVConfigs().size();i++){
+//			ASVConfig nextASV = sampler.ASVConfigs().get(i);
+//			List<ASVConfig> path = currentASV.generatePath(nextASV);
+//			currentASV = nextASV;
+//			
+//			for(int u=0;u<path.size();u++){
+//				
+//				visual.addPoints(path.get(u).getASVPositions());
+////				visual.waitKey();
+//				visual.addLinkedPoints(path.get(u).getASVPositions());
+//				
+//			}
+//			
+//		}
+		
 
-		
-//		System.out.println(problemSetupAngle.getInitialState().getASVPositions());
-//		System.out.println(problemSetupAngle.getGoalState().getASVPositions());
-		
-		
-
-		
 		
 	
 		
-		
-		
-		
-		
-		
-		
-		
-		
+			
 	}
+
 	
+	private static boolean validPath (ProblemSpec problemSpec, ASVConfig asv1, ASVConfig asv2) {
+		
+		System.out.println(asv1.getASVCount());
+		for(int u=0;u<asv1.getASVCount();u++){
+			
+			double x1 = asv1.getPosition(u).getX();
+			double y1 = asv1.getPosition(u).getY();
+			double x2 = asv2.getPosition(u).getX();
+			double y2 = asv2.getPosition(u).getY();
+			
+			List<Obstacle> obstacles = problemSpec.getObstacles();
+			
+			System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
+			System.out.println(obstacles.size());
+			
+			for(int i=0;i<obstacles.size();i++){
+				System.out.println(obstacles.get(i).toString());
+				if (obstacles.get(i).getRect().intersectsLine(x1, y1, x2, y2)) {
+					System.out.println(u);
+					return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+
 }
