@@ -58,14 +58,18 @@ public class Tester {
 	private double maxError;
 	/** The workspace bounds, with allowable error. */
 	private Rectangle2D lenientBounds;
-
+	
 	/**
 	 * Constructor. Creates a Tester with the default value for maximum error.
 	 */
-	public Tester() {
+	public Tester(ProblemSpec problemSpec) {
 		this(DEFAULT_MAX_ERROR);
+		this.ps = problemSpec;
 	}
 
+	public Tester(){
+		this(DEFAULT_MAX_ERROR);
+	}
 	/**
 	 * Constructor. Creates a Tester with the given maximum error.
 	 *

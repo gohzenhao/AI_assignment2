@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import solution.Edge;
 import tester.Tester;
 
 import java.awt.geom.Point2D;
@@ -28,6 +29,14 @@ public class ASVConfig {
 	private int stepsToMove;
 	
 	private Tester tester = new Tester();
+	
+	private List<Edge> edges = new ArrayList<Edge>();
+	
+	private ASVConfig parent;
+	
+	private double distanceToGoal;
+	
+	private double costFromStart;
 	
 
 	/**
@@ -282,8 +291,8 @@ public class ASVConfig {
 		int stepsX = this.stepsX(anotherASV);
 		int stepsY = this.stepsY(anotherASV);
 		
-		System.out.println("Steps X to get to another ASV : "+stepsX);
-		System.out.println("Steps Y to get to another ASV : "+stepsY);
+//		System.out.println("Steps X to get to another ASV : "+stepsX);
+//		System.out.println("Steps Y to get to another ASV : "+stepsY);
 		
 		
 		Double newPosX;
@@ -336,6 +345,52 @@ public class ASVConfig {
 		
 		return allSteps;
 		
+	}
+	
+	public boolean addEdge(ASVConfig inASV){
+		
+		Edge edge = new Edge(inASV);
+		edges.add(edge);
+		return true;
+		
+	}
+	
+	public List<Edge> getEdges(){
+		return this.edges;
+	}
+	
+	public ASVConfig getParent(){
+		return this.parent;
+	}
+	
+	public double getCostToGoal(ASVConfig goal){
+		
+		double x = Math.abs(goal.getX() - this.getX());
+		double y = Math.abs(goal.getY() - this.getY());
+		double value = (x*x)+(y*y);
+		return value;
+		
+	}
+	
+	public void setCostToGoal(double cost){
+		this.distanceToGoal = cost;
+	}
+	
+	public void setParent(ASVConfig inParent){
+		this.parent = inParent;
+	}
+	
+	public double getCostFromStart(ASVConfig start){
+		
+		double x = Math.abs(start.getX() - this.getX());
+		double y = Math.abs(start.getY() - this.getY());
+		double value = (x*x)+(y*y);
+		return value;
+		
+	}
+	
+	public void SetCostFromStart(double cost){
+		this.costFromStart = cost;
 	}
 	
 
