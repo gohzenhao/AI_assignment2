@@ -64,23 +64,31 @@ public class Sampler {
 			Point2D previousPoint = new Point2D.Double(pointX,pointY);
 			Point2D currentPoint;
 			double distance;
-//			for(int i=0;i<this.ASVCount-1;i++){
-//				do
-//				{
-//					angle = Math.random()*360;
-//					double currentX,currentY;
-//					currentX = previousPoint.getX() + 0.05 * Math.cos(angle*22/1260.0);
-//					currentY = previousPoint.getY() + 0.05 * Math.sin(angle*22/1260.0);
-//					currentPoint = new Point2D.Double(currentX,currentY);
-//				}while(currentPoint.distance(previousPoint)!=0.05);
-//				currentASV.addAngle(angle);
-//				previousPoint = currentPoint;
-//			}
+			for(int i=0;i<this.ASVCount-1;i++){
+				do
+				{
+					angle = Math.random()*360;
+					double currentX,currentY;
+					currentX = previousPoint.getX() + 0.05 * Math.cos(angle*22/1260.0);
+					currentY = previousPoint.getY() + 0.05 * Math.sin(angle*22/1260.0);
+					currentPoint = new Point2D.Double(currentX,currentY);
+				}while(currentPoint.distance(previousPoint)!=0.05);
+				currentASV.addAngle(angle);
+				previousPoint = currentPoint;
+			}
 			
 			
 			
-			currentASV.addAngle(90);
-			currentASV.addAngle(0);
+//			currentASV.addAngle(90);
+//			currentASV.addAngle(0);
+			
+//			currentASV.addAngle(210);
+//			currentASV.addAngle(240);
+//			currentASV.addAngle(300);
+//			currentASV.addAngle(0);
+//			currentASV.addAngle(60);
+//			currentASV.addAngle(90);
+			
 			currentASV.getASVPositions();
 			
 			boolean result = false;

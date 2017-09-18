@@ -33,7 +33,7 @@ public class Driver {
 
 		ProblemSpec problemSetupAngle = new ProblemSpec();
 		Tester tester = new Tester(problemSetupAngle);
-		String filename = "C:\\Users\\User-PC\\eclipse-workspace\\AI-ass2\\testcases\\3ASV-easy.txt";
+		String filename = "C:/Users/gohzenhao/Documents/3ASV-easy.txt";
 		
 		File outputFile = new File("answer.txt");
 		
@@ -68,7 +68,7 @@ public class Driver {
 		
 		Sampler sampler = new Sampler(problemSetupAngle);
 		
-		sampler.Sample(100);
+		sampler.Sample(200);
 		System.out.println(sampler.ASVConfigs().size());
 		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
 		
@@ -102,25 +102,37 @@ public class Driver {
 //			}
 //		}
 		
+//		ASVConfig asv1 = problemSetupAngle.getInitialState();
+//		ASVConfig asv2 = problemSetupAngle.getGoalState();
+//		System.out.println(asv1.getASVPositions());
+//		System.out.println(asv1.getAngles());
+//		
+//		asv1.generatePath(asv2);
+		
 		
 		Environment environment = new Environment(problemSetupAngle,sampler.ASVConfigs(),sampler);
-		
+	
 		List<ASVConfig> path = environment.compute();
+		System.out.println(path);
 		Collections.reverse(path);
 		ASVConfig current = problemSetupAngle.getInitialState();
 		List<ASVConfig> steps = new ArrayList<ASVConfig>();
 		for(int i=0;i<path.size();i++){
 			
 			ASVConfig next = path.get(i);
-			steps.addAll(current.generatePath(next));				
+			
+			System.out.println(next.getASVPositions());
+			
+			steps.addAll(current.generatePath(next));
+				
 		}
-		
 		System.out.println(steps.get(0));
 		System.out.println(problemSetupAngle.getInitialState());
 		System.out.println(steps.get(steps.size()-1));
 		System.out.println(problemSetupAngle.getGoalState());
 		
 		problemSetupAngle.setPath(steps);
+//		problemSetupAngle.setPath(path);
 		problemSetupAngle.saveSolution("answer.txt");
 		
 		System.out.println(tester.hasGoalLast());
@@ -149,7 +161,7 @@ public class Driver {
 //			}
 //			
 //		}
-		
+//		
 
 		
 	

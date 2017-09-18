@@ -230,40 +230,12 @@ public class ASVConfig {
 		
 	}
 	
-	public int stepsX(ASVConfig anotherASV){
-		
-		double xDiff = anotherASV.baseASVx - this.baseASVx;
-		xDiff = xDiff/0.001;
-		
-		return (int)Math.round(xDiff);
+	public void moveX(double x){
+		this.baseASVx += x;
 	}
 	
-	public int stepsY(ASVConfig anotherASV){
-		
-		double yDiff = anotherASV.baseASVy - this.baseASVy;
-		yDiff = yDiff/0.001;
-		
-		return (int)Math.round(yDiff);
-		
-	}
-	public double moveFrontX(){
-		this.baseASVx += 0.001;
-		return this.baseASVx;
-	}
-	
-	public double moveFrontY(){
-		this.baseASVy+= 0.001;
-		return this.baseASVy;
-	}
-	
-	public double moveBackX(){
-		this.baseASVx -= 0.001;
-		return this.baseASVx;
-	}
-	
-	public double moveBackY(){
-		this.baseASVy -=0.001;
-		return this.baseASVy;
+	public void moveY(double y){
+		this.baseASVy += y;
 	}
 	
 	public double getX(){
@@ -274,27 +246,96 @@ public class ASVConfig {
 		return this.baseASVy;
 	}
 	
-	public double angleDiff(ASVConfig anotherASV,int i){
-		
-		double angle1 = this.asvAngle.get(i);
-		
-		double angle2 = anotherASV.getAngles().get(i);
-		
-		double diff = angle2 - angle1;
-		
-		return diff;
-		
-		
-	}
 	
+//	public List<ASVConfig> generatePath(ASVConfig anotherASV){
+//		
+//		double x = anotherASV.baseASVx - this.baseASVx;
+//		double y = anotherASV.baseASVy - this.baseASVy;
+//		
+//		double d = Math.sqrt((x*x)+(y*y));
+//		
+//		int steps = (int) Math.round(d/0.001);
+//		
+//		double stepsX = x/steps;
+//		double stepsY = y/steps;
+//		
+////		System.out.println("Steps X to get to another ASV : "+stepsX);
+////		System.out.println("Steps Y to get to another ASV : "+stepsY);
+//		
+//		
+//		Double newPosX;
+//		Double newPosY;
+//		
+//		List<ASVConfig> allSteps = new ArrayList<ASVConfig>();
+//		
+//		double lastX = this.baseASVx;
+//		double lastY = this.baseASVy;
+//		
+//		for(int i=0;i<steps;i++){
+//			
+//			ASVConfig step = new ASVConfig();
+//			
+//			this.moveX(stepsX);
+//			this.moveY(stepsY);
+//			
+//			step.addPoints(this.baseASVx, this.baseASVy);
+//			
+//			for(int u=0;u<this.getAngles().size();u++){
+//				step.addAngle(this.getAngles().get(u));
+//			}
+//			
+//			step.getASVPositions();
+//			allSteps.add(step);
+//			
+//			lastX = lastX+stepsX;
+//			lastY = lastY+stepsY;
+//			
+//		}
+//		
+//		return allSteps;
+//				
+//				
+//			}
 	
 	public List<ASVConfig> generatePath(ASVConfig anotherASV){
 		
-		int stepsX = this.stepsX(anotherASV);
-		int stepsY = this.stepsY(anotherASV);
+		double x = anotherASV.baseASVx - this.baseASVx;
+		double y = anotherASV.baseASVy - this.baseASVy;
 		
-//		System.out.println("Steps X to get to another ASV : "+stepsX);
-//		System.out.println("Steps Y to get to another ASV : "+stepsY);
+		double angle = 0;
+		
+		for(int i=0;i<this.getAngles().size();i++){
+			
+			angle += Math.pow((anotherASV.getAngles().get(i) - this.getAngles().get(i)),2);
+			
+		}
+		
+		double d = Math.sqrt((x*x)+(y*y)+angle);
+		
+		double totalBroomLength = (this.asvPositions.size()-1)*0.05;
+		double maximumMovement = 0.001;
+		
+
+		int steps = 0;
+		double minAngle = Math.asin((maximumMovement/totalBroomLength));
+		System.out.println("Min angle :"+minAngle);
+		if(minAngle>0.001){
+			System.out.println("1");
+		
+		steps = (int) Math.round(d/0.001);
+		}
+		else{
+			System.out.println("2");
+			steps = (int) Math.round(d/minAngle);
+					}
+		
+		double stepsX = x/steps;
+		double stepsY = y/steps;
+		
+		
+		
+		System.out.println("Steps X to get to another ASV : "+stepsX);
+		System.out.println("Steps Y to get to another ASV : "+stepsY);
 		
 		
 		Double newPosX;
@@ -302,52 +343,45 @@ public class ASVConfig {
 		
 		List<ASVConfig> allSteps = new ArrayList<ASVConfig>();
 		
-		while(stepsX!=0 || stepsY!=0){
+		double lastX = this.baseASVx;
+		double lastY = this.baseASVy;
+		
+		for(int i=0;i<steps;i++){
 			
-			ASVConfig oneStep = new ASVConfig();
+			ASVConfig step = new ASVConfig();
 			
-			newPosX = this.getX();
-			newPosY = this.getY();
+			this.moveX(stepsX);
+			this.moveY(stepsY);
 			
-			if(stepsX!=0){
-				if(stepsX>0){
-					stepsX -= 1;
-					newPosX = this.moveFrontX();
-//					System.out.println("Moving front X..");
-				}
-				else if(stepsX<0){
-					stepsX += 1;
-					newPosX = this.moveBackX();
-//					System.out.println("Moving back X");
-				}
-
+			step.addPoints(this.baseASVx, this.baseASVy);
+			
+			for(int u=0;u<this.getAngles().size();u++){
+				
+				double stepsAngle = (anotherASV.getAngles().get(u)-this.getAngles().get(u))/steps;
+				
+				System.out.println("Rotation required for angle : "+stepsAngle);
+				
+				double totalAngle = this.getAngles().get(u) +stepsAngle;
+				
+				
+				step.addAngle(totalAngle);
+				
 			}
 			
-			if(stepsY!=0){
-				if(stepsY>0){
-					stepsY -= 1;
-					newPosY = this.moveFrontY();
-//					System.out.println("Moving front Y");
-				}
-				else if(stepsY<0){
-					stepsY += 1;
-					newPosY = this.moveBackY();
-//					System.out.println("Moving back Y");
-				}
-
-			}
+			step.getASVPositions();
+			allSteps.add(step);
 			
-			oneStep.addPoints(newPosX, newPosY);
-			for(int i=0;i<anotherASV.getAngles().size();i++){
-				oneStep.addAngle(anotherASV.getAngles().get(i));
-			}
-			oneStep.getASVPositions();
-			allSteps.add(oneStep);
+			lastX = lastX+stepsX;
+			lastY = lastY+stepsY;
+			
 		}
 		
 		return allSteps;
+				
+				
+			}
 		
-	}
+	
 	
 	public boolean addEdge(ASVConfig inASV){
 		
