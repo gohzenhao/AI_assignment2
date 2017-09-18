@@ -33,7 +33,7 @@ public class Driver {
 
 		ProblemSpec problemSetupAngle = new ProblemSpec();
 		Tester tester = new Tester(problemSetupAngle);
-		String filename = "C:/Users/gohzenhao/Documents/3ASV-easy.txt";
+		String filename = "C:\\Users\\User-PC\\eclipse-workspace\\AI-ass2\\testcases\\3ASV-easy.txt";
 		
 		File outputFile = new File("answer.txt");
 		
@@ -112,10 +112,9 @@ public class Driver {
 		for(int i=0;i<path.size();i++){
 			
 			ASVConfig next = path.get(i);
-			
-			steps.addAll(current.generatePath(next));
-				
+			steps.addAll(current.generatePath(next));				
 		}
+		
 		System.out.println(steps.get(0));
 		System.out.println(problemSetupAngle.getInitialState());
 		System.out.println(steps.get(steps.size()-1));

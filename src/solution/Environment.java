@@ -34,11 +34,11 @@ public class Environment {
 	Comparator<ASVConfig> comparator = new Comparator<ASVConfig>() {
 	    @Override
 	    public int compare(ASVConfig i, ASVConfig j){
-            if(i.getCostToGoal(goal)+i.getCostFromStart(initial) > j.getCostToGoal(goal)+j.getCostFromStart(initial)){
+            if(i.getOverallValue(goal) > j.getOverallValue(goal)){
                 return 1;
             }
 
-            else if (i.getCostToGoal(goal)+i.getCostFromStart(initial)< j.getCostToGoal(goal)+j.getCostFromStart(initial)){
+            else if (i.getOverallValue(goal) < j.getOverallValue(goal)){
                 return -1;
             }
 
@@ -60,19 +60,17 @@ public class Environment {
 
 
 		    }
-		    return path;
-
-		  
+		    return path;		  
 		  }
 	
 	public List<ASVConfig> compute(){
 		
 		PriorityQueue<ASVConfig> openList = new PriorityQueue<ASVConfig>(samples.size(),comparator);
-//	    LinkedList<AS> explored = new LinkedList<>();
+	    LinkedList<ASVConfig> explored = new LinkedList<>();
 		ASVConfig child;
 
 			ASVConfig current;
-		    initial.SetCostFromStart(0);
+		    initial.setCostFromStart(0,goal);
 
 		    openList.add(initial);
 
@@ -81,7 +79,6 @@ public class Environment {
 		    goal.getASVPositions();
 		    initial.getASVPositions();
 		    while(!openList.isEmpty()){
-		    	
 		    	current = openList.poll();
 		    	
 //		    	System.out.println("current is : "+current);
@@ -99,20 +96,25 @@ public class Environment {
 			    		child = edge.target;	
 			    		
 			    		boolean isOpen = openList.contains(child);
-	//		    		double cost = edge.distanceToGoal;
-			    		double costToGoal = current.getCostToGoal(goal) + current.getCostFromStart(initial);
-			    		
-			    		
-			    		if((!isOpen) || costToGoal < (child.getCostToGoal(goal)+child.getCostFromStart(initial))){
-			    			child.setParent(current);
-			    			
-			    			openList.add(child);
-		
+			    		boolean isClosed = explored.contains(child);
+			    		double x,y;
+			    		x = child.getY()-current.getY();
+			    		y = child.getX()-current.getX();
+			    		double cost = Math.pow((x*x+y*y),0.5);
+			    		double costFromStart = current.getCostFromStart()+cost;			    		
+			    		if((costFromStart < child.getCostFromStart()))
+			    		{
+			    			child.setCostFromStart(costFromStart,goal);
+			    		}
+			    		if((!isOpen && !isClosed) || ((costFromStart+child.getCostToGoal(goal)) < child.getOverallValue(goal))){
+			    			child.setCostFromStart(costFromStart,goal);
+			    			child.setParent(current);			    			
+			    			openList.add(child);		
 			    		}
 			    	}
+			    	explored.add(current);	
 		    	}
-		    	child = current;
-		    	
+		    		    	
 		    }
 		    if(openList.isEmpty() && !goalFound)
 		    	return null;

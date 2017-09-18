@@ -32,12 +32,14 @@ public class ASVConfig {
 	
 	private List<Edge> edges = new ArrayList<Edge>();
 	
-	private ASVConfig parent;
-	
 	private double distanceToGoal;
+
+	private ASVConfig parent=null;
 	
-	private double costFromStart;
+	private double costFromStart=0;
 	
+	private double overallValue;
+
 
 	/**
 	 * Constructor. Takes an array of 2n x and y coordinates, where n is the
@@ -364,34 +366,38 @@ public class ASVConfig {
 	}
 	
 	public double getCostToGoal(ASVConfig goal){
-		
-		double x = Math.abs(goal.getX() - this.getX());
-		double y = Math.abs(goal.getY() - this.getY());
-		double value = (x*x)+(y*y);
-		return value;
-		
-	}
-	
-	public void setCostToGoal(double cost){
-		this.distanceToGoal = cost;
+		double x = goal.getX() - this.getX();
+		double y = goal.getY() - this.getY();
+		double value = Math.pow(((x*x)+(y*y)),0.5);
+		return value;		
 	}
 	
 	public void setParent(ASVConfig inParent){
 		this.parent = inParent;
 	}
 	
-	public double getCostFromStart(ASVConfig start){
-		
-		double x = Math.abs(start.getX() - this.getX());
-		double y = Math.abs(start.getY() - this.getY());
-		double value = (x*x)+(y*y);
-		return value;
+	public double getCostFromStart(){
+		return this.costFromStart;
 		
 	}
 	
-	public void SetCostFromStart(double cost){
+	public void setCostFromStart(double cost, ASVConfig goal){
 		this.costFromStart = cost;
+		setOverallValue(cost+getCostToGoal(goal));
 	}
+	
+	public double getOverallValue(ASVConfig goal)
+	{
+		this.overallValue = this.getCostFromStart()+this.getCostToGoal(goal);
+		return overallValue;
+	}
+	
+	public void setOverallValue(double cost)
+	{
+		this.overallValue = cost;
+	}
+	
+	
 	
 
 	
