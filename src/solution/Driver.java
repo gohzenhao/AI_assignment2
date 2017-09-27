@@ -68,14 +68,14 @@ public class Driver {
 		
 		Sampler sampler = new Sampler(problemSetupAngle);
 		
-		sampler.Sample(200);
+		sampler.Sample(500);
 		System.out.println(sampler.ASVConfigs().size());
 		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
 		
-		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
-			rects.add(problemSetupAngle.getObstacles().get(i).getRect());
-		}
-		visual.addRectangles(rects);
+//		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
+//			rects.add(problemSetupAngle.getObstacles().get(i).getRect());
+//		}
+//		visual.addRectangles(rects);
 //		for(int i=0;i<sampler.ASVConfigs( ).size();i++){
 ////		System.out.println(sampler.ASVConfigs().get(i).getAngles());			
 ////			System.out.println(sampler.ASVConfigs().get(i).getASVPositions());
@@ -124,6 +124,8 @@ public class Driver {
 			System.out.println(next.getASVPositions());
 			
 			steps.addAll(current.generatePath(next));
+			
+			current = next;
 				
 		}
 		System.out.println(steps.get(0));
@@ -137,6 +139,23 @@ public class Driver {
 		
 		System.out.println(tester.hasGoalLast());
 		System.out.println(tester.hasInitialFirst());
+		
+//		List<ASVConfig> path = new ArrayList<ASVConfig>();
+//		ASVConfig asv1 = problemSetupAngle.getInitialState();
+//		ASVConfig asv2 = new ASVConfig();
+//		asv2.addPoints(0.3, 0.4);
+//		asv2.addAngle(320);
+//		asv2.addAngle(260);
+//		System.out.println(asv2.getASVPositions());
+//		asv1.getASVPositions();
+//		path.add(asv1);
+//		path = asv1.generatePath(asv2);
+//		path.get(0).getASVPositions();
+//		path.get(0).getPosition(0);
+//		problemSetupAngle.setPath(path);
+//		problemSetupAngle.saveSolution("answer.txt");
+//		System.out.println(tester.hasGoalLast());
+//		System.out.println(tester.hasInitialFirst());
 
 		
 		

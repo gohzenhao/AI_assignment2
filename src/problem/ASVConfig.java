@@ -254,6 +254,8 @@ public class ASVConfig {
 //		
 //		double d = Math.sqrt((x*x)+(y*y));
 //		
+//		System.out.println("Distance between 2 ASV : "+d);
+//		
 //		int steps = (int) Math.round(d/0.001);
 //		
 //		double stepsX = x/steps;
@@ -312,6 +314,8 @@ public class ASVConfig {
 		
 		double d = Math.sqrt((x*x)+(y*y)+angle);
 		
+		System.out.println(d);
+		
 		double totalBroomLength = (this.asvPositions.size()-1)*0.05;
 		double maximumMovement = 0.001;
 		
@@ -332,6 +336,13 @@ public class ASVConfig {
 		double stepsX = x/steps;
 		double stepsY = y/steps;
 		
+		List<Double> stepsAngle = new ArrayList<Double>();
+		for(int i=0;i<this.getAngles().size();i++){
+			double angleStep = (anotherASV.getAngles().get(i) - this.getAngles().get(i))/steps;
+			stepsAngle.add(angleStep);
+			
+		}
+		
 		
 		
 		System.out.println("Steps X to get to another ASV : "+stepsX);
@@ -345,6 +356,7 @@ public class ASVConfig {
 		
 		double lastX = this.baseASVx;
 		double lastY = this.baseASVy;
+		List<Double> lastAngles = this.getAngles();
 		
 		for(int i=0;i<steps;i++){
 			
@@ -357,14 +369,8 @@ public class ASVConfig {
 			
 			for(int u=0;u<this.getAngles().size();u++){
 				
-				double stepsAngle = (anotherASV.getAngles().get(u)-this.getAngles().get(u))/steps;
-				
-				System.out.println("Rotation required for angle : "+stepsAngle);
-				
-				double totalAngle = this.getAngles().get(u) +stepsAngle;
-				
-				
-				step.addAngle(totalAngle);
+				step.addAngle(lastAngles.get(u)+stepsAngle.get(u));
+
 				
 			}
 			
@@ -373,6 +379,7 @@ public class ASVConfig {
 			
 			lastX = lastX+stepsX;
 			lastY = lastY+stepsY;
+			lastAngles = step.getAngles();
 			
 		}
 		
@@ -380,6 +387,7 @@ public class ASVConfig {
 				
 				
 			}
+	
 		
 	
 	
