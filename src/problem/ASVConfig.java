@@ -206,10 +206,10 @@ public class ASVConfig {
 		{
 			double angle = asvAngle.get(i);
 			currentX = previousX + 0.05 * Math.cos(angle*22/1260.0);
-			currentY = previousY + 0.05 * Math.sin(angle*22/1260.0) ;
+			currentY = previousY + 0.05 * Math.sin(angle*22/1260.0);
 	
-			currentX = Double.parseDouble(format.format(currentX));
-			currentY = Double.parseDouble(format.format(currentY));
+//			currentX = Double.parseDouble(format.format(currentX));
+//			currentY = Double.parseDouble(format.format(currentY));
 			asvPositions.add(new Point2D.Double(currentX,currentY));
 			previousX = currentX;
 			previousY = currentY;			

@@ -252,10 +252,10 @@ public class Tester {
 		for (int i = 1; i < points.size(); i++) {
 			Point2D p0 = points.get(i - 1);
 			Point2D p1 = points.get(i);
-			System.out.println(p0);
-			System.out.println(p1);
+//			System.out.println(p0);
+//			System.out.println(p1);
 			double boomLength = p0.distance(p1);
-			System.out.println(boomLength);
+//			System.out.println(boomLength);
 			if (boomLength < MIN_BOOM_LENGTH - maxError) {
 				return false;
 			} else if (boomLength > MAX_BOOM_LENGTH + maxError) {
