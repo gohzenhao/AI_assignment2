@@ -16,8 +16,7 @@ public class Sampler {
 	
 	public Sampler(ProblemSpec inProblemSpec){		
 		this.problemSpec = inProblemSpec;
-		this.ASVCount = 15;
-//		this.ASVCount = inProblemSpec.getASVCount();		
+		this.ASVCount = inProblemSpec.getASVCount();		
 	}
 	
 	public void Sample(int times){
