@@ -33,7 +33,7 @@ public class Driver {
 
 		ProblemSpec problemSetupAngle = new ProblemSpec();
 		Tester tester = new Tester(problemSetupAngle);
-		String filename = "C:\\Users\\User-PC\\eclipse-workspace\\AI-ass2\\testcases\\7ASV.txt";
+		String filename = "C:\\Users\\User-PC\\eclipse-workspace\\AI-ass2\\testcases\\3ASV.txt";
 		
 		File outputFile = new File("answer.txt");
 		

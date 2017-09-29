@@ -16,7 +16,8 @@ public class Sampler {
 	
 	public Sampler(ProblemSpec inProblemSpec){		
 		this.problemSpec = inProblemSpec;
-		this.ASVCount = inProblemSpec.getASVCount();		
+		this.ASVCount = 3;
+//		this.ASVCount = inProblemSpec.getASVCount();		
 	}
 	
 	public void Sample(int times){
@@ -29,11 +30,14 @@ public class Sampler {
 			double baseY = Math.random();			
 			currentASV.addPoints(baseX, baseY);
 			currentASV.addAngle(Math.random()*360);
-			if(ASVCount==3)
-				currentASV.addAngle(Math.random()*360);
-			if(ASVCount>3)
+			if(ASVCount>=3)
 			{
-				double eachAngle = (180.00*(this.ASVCount*6.5-2))/(ASVCount*6.5);
+				double count;
+				if(this.ASVCount>=7)
+					count = 6.5;
+				else
+					count = this.ASVCount-1;
+				double eachAngle = (180.00*(this.ASVCount*count-2))/(this.ASVCount*count);
 				for(int i = 1 ; i < this.ASVCount-1;i++)
 				{
 					double prevAngle = currentASV.getAngles().get(i-1);
