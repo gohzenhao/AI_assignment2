@@ -33,7 +33,7 @@ public class Driver {
 
 		ProblemSpec problemSetupAngle = new ProblemSpec();
 		Tester tester = new Tester(problemSetupAngle);
-		String filename = "C:\\Users\\User-PC\\eclipse-workspace\\AI-ass2\\testcases\\7ASV-easy.txt";
+		String filename = "C:/Users/gohzenhao/Documents/3ASV.txt";
 		
 		File outputFile = new File("answer.txt");
 		
@@ -46,8 +46,8 @@ public class Driver {
 		
 		Sampler sampler = new Sampler(problemSetupAngle);
 		
-		sampler.Sample(250);
-		System.out.println(sampler.ASVConfigs().size());
+		sampler.Sample(1000);
+//		System.out.println(sampler.ASVConfigs().size());
 //		ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
 //		
 //		for(int i=0;i<problemSetupAngle.getObstacles().size();i++){
@@ -83,6 +83,8 @@ public class Driver {
 			current = next;
 				
 		}
+		
+		steps.add(0,problemSetupAngle.getInitialState());
 		System.out.println("Initial node generated : "+steps.get(0));
 		System.out.println("Initial node from problem spec :"+problemSetupAngle.getInitialState());
 		System.out.println("Last node generated : "+steps.get(steps.size()-1));
