@@ -1,13 +1,18 @@
 package solution;
 
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import problem.ASVConfig;
 import problem.Obstacle;
 import problem.ProblemSpec;
 import tester.Tester;
 
 public class Sampler {
+	
 	
 	private int ASVCount;	
 	private List<ASVConfig> ASVConfigs = new ArrayList<ASVConfig>();	
@@ -16,8 +21,8 @@ public class Sampler {
 	
 	public Sampler(ProblemSpec inProblemSpec){		
 		this.problemSpec = inProblemSpec;
-		this.ASVCount = 3;
-//		this.ASVCount = inProblemSpec.getASVCount();		
+//		this.ASVCount = 3;
+		this.ASVCount = inProblemSpec.getASVCount();		
 	}
 	
 	public void Sample(int times){
@@ -136,8 +141,6 @@ public class Sampler {
 	public List<ASVConfig> ASVConfigs(){
 		return this.ASVConfigs;
 	}
-	
-	
 	
 	
 	
