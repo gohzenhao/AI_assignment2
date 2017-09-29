@@ -340,6 +340,7 @@ public List<ASVConfig> generatePath(ASVConfig anotherASV){
 	
 	double moveX = deltaX/maxSteps;
 	double moveY = deltaY/maxSteps;
+	double moveAngle = deltaAngle/maxSteps;
 	
 			System.out.println("X should move "+moveX+" per step");
 			System.out.println("Y should move "+moveY+" per step");
@@ -354,22 +355,27 @@ public List<ASVConfig> generatePath(ASVConfig anotherASV){
 		
 		ASVConfig step = new ASVConfig();
 		
-		this.moveX(moveX);
-		this.moveY(moveY);
+//		this.moveX(moveX);
+//		this.moveY(moveY);
+		double newX = lastX + moveX;
+		double newY = lastY + moveY;		
 		
-		step.addPoints(this.baseASVx, this.baseASVy);
-		
-		for(int u=0;u<this.getAngles().size();u++){
-			
-			step.addAngle(lastAngles.get(u)+moveAngles.get(u));
-
-			
-		}
+		step.addPoints(newX, newY);
+		step.asvAngle = lastAngles;
+		double firstAngle = lastAngles.get(0)+moveAngle;
+		step.asvAngle.set(0,firstAngle);
+		step = this.updateAngle(step);
+				
+//		for(int u=0;u<this.getAngles().size();u++){
+//			
+//			step.addAngle(lastAngles.get(u)+moveAngles.get(u));
+//			
+//		}
 		step.getASVPositions();
 		allSteps.add(step);
 		
-		lastX = lastX+stepsX;
-		lastY = lastY+stepsY;
+		lastX = newX;
+		lastY = newY;
 		lastAngles = step.getAngles();
 		
 	}
@@ -377,7 +383,7 @@ public List<ASVConfig> generatePath(ASVConfig anotherASV){
 	return allSteps;
 			
 			
-		}
+	}
 	
 	
 		
@@ -468,6 +474,63 @@ public List<ASVConfig> generatePath(ASVConfig anotherASV){
 		return curvingDir;
 	}
 	
+	public ASVConfig updateAngle(ASVConfig asv)
+	{
+		double count;
+		if(asv.getASVCount()>=7)
+			count = 6.5;
+		else
+			count = asv.getASVCount()-1;
+		double eachAngle = (180.00*(asv.getASVCount()*count-2))/(asv.getASVCount()*count);
+		for(int i = 1 ; i < asv.getASVCount()-1;i++)
+		{
+			double prevAngle = asv.getAngles().get(i-1);
+			double angle = eachAngle;
+			if(asv.checkCurvingDirection().equals("RightOfTheBase"))
+			{
+				if(prevAngle == 180)
+					angle = eachAngle;
+				else if(prevAngle == 0 || prevAngle==360)
+					angle = 180 + eachAngle;
+				else if(prevAngle>0 && prevAngle<180)
+				{
+					double conseqInAngle = 180 - prevAngle;
+					double deltaAngle = Math.abs(conseqInAngle-eachAngle);
+					if(eachAngle>conseqInAngle)
+						angle = deltaAngle;
+					else
+						angle = 360 - deltaAngle; 
+				}
+				else if(prevAngle>180 && prevAngle<360)
+				{
+					double suppAngle = 360 - prevAngle;
+					double conseqInAngle = 180 - suppAngle;
+					angle = eachAngle + conseqInAngle;
+				}
+			}
+			else
+			{
+				if(prevAngle == 180)
+					angle = 360 - eachAngle;
+				else if(prevAngle == 0 || prevAngle==360)
+					angle = 180 - eachAngle;
+				else if(prevAngle>0 && prevAngle<180)
+					angle = 180+prevAngle-eachAngle;
+				else if(prevAngle>180 && prevAngle<360)
+				{
+					double suppAngle = 360 - prevAngle;
+					double conseqInAngle = 180 - suppAngle;
+					double deltaAngle = Math.abs(conseqInAngle-eachAngle);
+					if(eachAngle>conseqInAngle)
+						angle = 360 - deltaAngle;
+					else
+						angle = deltaAngle;
+				}
+			}
+			asv.asvAngle.set(i,angle);
+		}
+		return asv;
+	}
 	
 	
 

@@ -28,7 +28,6 @@ public class Sampler {
 	public void Sample(int times){
 		ASVConfig currentASV;
 		this.ASVConfigs.add(problemSpec.getInitialState());
-		System.out.println(problemSpec.getInitialState().checkCurvingDirection());
 		for(int u=0;u<times;u++){
 			currentASV = new ASVConfig();
 			double baseX = Math.random();
@@ -107,8 +106,6 @@ public class Sampler {
 						}					
 					}
 					this.ASVConfigs.add(currentASV);
-					System.out.println(currentASV.getAngles());
-					System.out.println(currentASV.checkCurvingDirection());
 				}
 			}
 				
