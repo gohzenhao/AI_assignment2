@@ -438,6 +438,43 @@ public class ASVConfig {
 	{
 		this.overallValue = cost;
 	}
+
+	//determine the direction a config is facing
+	public String checkCurvingDirection()
+	{
+		String curvingDir = "";
+		double firstAngle = this.getAngles().get(0);
+		double secondAngle = this.getAngles().get(1);
+		if(firstAngle>0 && firstAngle<180)
+		{
+			if((secondAngle > firstAngle ) && (secondAngle < firstAngle+180))
+				curvingDir = "LeftOfTheBase";
+			else
+				curvingDir = "RightOfTheBase";
+		}
+		else if(firstAngle>180 && firstAngle<360)
+		{
+			if((secondAngle>firstAngle-180) && (secondAngle < firstAngle))
+				curvingDir = "RightOfTheBase";
+			else
+				curvingDir = "LeftOfTheBase";
+		}
+		else if(firstAngle==0)
+		{
+			if(secondAngle>0 && secondAngle<180)
+				curvingDir = "LeftOfTheBase";
+			else
+				curvingDir = "RightOfTheBase";
+		}
+		else
+		{
+			if(secondAngle>0 && secondAngle<180)
+				curvingDir = "RightOfTheBase";
+			else
+				curvingDir = "LeftOfTheBase";
+		}
+		return curvingDir;
+	}
 	
 	
 	
